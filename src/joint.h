@@ -16,10 +16,6 @@ public:
   
     Joint(float R, float G, float B)
     {
-        mObj = gluNewQuadric();
-        gluQuadricDrawStyle(mObj, GLU_FILL);
-        gluQuadricOrientation(mObj, GLU_OUTSIDE);
-        gluQuadricNormals(mObj, GLU_SMOOTH);
 		mR = R;
 		mG = G;
 		mB = B;
@@ -27,7 +23,6 @@ public:
     
     float mLength;
     float mAngle;
-    GLUquadricObj *mObj;
     float mR, mG, mB;
 };
 

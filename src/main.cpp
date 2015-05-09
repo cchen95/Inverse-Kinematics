@@ -43,7 +43,7 @@ double alpha = 0;                                  // Set by idle function.
 double beta = 0;                                   // Set by mouse X.
 double mousedist = - (farPlane - nearPlane) / 2;    // Set by mouse Y.
 
-Arm l;
+Arm arm;
 
 Vector2f targetPoint = Vector2f::Zero();
 
@@ -63,7 +63,7 @@ void display ()
     alpha = 180.0 * yMouse;
     glRotatef(beta, 1, 0, 0);
 
-    l.draw();
+    arm.draw();
 
     glPushMatrix();
     glColor3f(1.0f, 1.0f, 0.0f);
@@ -82,9 +82,9 @@ void idle ()
 
 void timer(int i)
 {
-  l.update();
-  if(l.isTargetResolved()) {
-	  targetPoint = l.getPointWithinRange(); l.moveToPoint(targetPoint); 
+  arm.update();
+  if(arm.isTargetResolved()) {
+	  targetPoint = arm.getPointWithinRange(); arm.moveToPoint(targetPoint); 
   }
 
     glutTimerFunc(10, timer, i);
@@ -126,13 +126,13 @@ int main (int argc, char **argv)
 {
     srand ( time(NULL) );
 
-    //add the joints into l
+    //add the joints into arm
     for (int i = 1; i <= 5; i++)
     {
-        Joint *l = new Joint(1,1,1);
-        l->mAngle = 3.14f/4;
-        l->mLength = 5*i;
-        ::l.addJoint(l);
+        Joint *arm = new Joint(1,1,1);
+        arm->mAngle = 3.14f/4;
+        arm->mLength = 5*i;
+        ::arm.addJoint(arm);
     }
 
     // GLUT initialization.

@@ -3,20 +3,14 @@
 #include <iostream>
 #include "joint.h"
 
-#define degrees(x) x*180/3.1415926
-
 
 MatrixXf Arm::pseudoInverse()
 {
-  // Simple math that represents the mathematics
-  // explained on the website to computing the
-  // pseudo inverse. this is exactly the math
-  // discussed in the tutorial!!!
     MatrixXf j = jacobian();
-    MatrixXf jjtInv = (j * j.transpose());
-    jjtInv = jjtInv.inverse();
+    MatrixXf inv = (j * j.transpose());
+    inv = inv.inverse();
 
-    return (j.transpose() * jjtInv);
+    return (j.transpose() * inv);
 }
 
 void Arm::calculatePosition()
@@ -69,13 +63,14 @@ void Arm::draw()
 	glColor3f(0,1.0,0);
     glutSolidSphere(2.0, 10, 10);
 
-	//draws a cylinder for each joint and then a sphere where joints connect
+	//draws a cone for each joint and then a sphere where joints connect
     for (int i = 0; i < mList.size(); i++)
     {
-        glRotatef(degrees(mList[i]->mAngle), 1.0f, 0.0f, 0.0f);
+        glRotatef((mList[i]->mAngle)*180/3.141592654, 1.0f, 0.0f, 0.0f);
 		glColor3f(mList[i]->mR, mList[i]->mG, mList[i]->mB);
 		
-        gluCylinder(mList[i]->mObj, 1, 1, mList[i]->mLength, 20, 20);
+        //gluCylinder(mList[i]->mObj, 1, 1, mList[i]->mLength, 20, 20);
+		glutSolidCone(2, mList[i]->mLength, 20, 20);
         glTranslatef(0, 0, mList[i]->mLength);
 		glColor3f(1.0, 0, 0);
         glutSolidSphere(2, 20, 20);
